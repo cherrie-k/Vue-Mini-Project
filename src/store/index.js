@@ -44,6 +44,11 @@ export default new Vuex.Store({
       // 넘겨받은 id랑 일치하는 애 빼고 나머지가 this.tasks로 넘겨짐
       // 그렇게 넘겨진 애들만 v-for에 의해 렌더링됨
     },
+    updateTaskTitle(state, payload) {
+      // 수정하고자 하는 task의 아이디값으로 task 불러옴
+      let task = state.tasks.filter((task) => task.id === payload.id)[0];
+      task.title = payload.title;
+    },
     showSnackbar(state, text) {
       let timeout = 0;
       if (state.snackbar.show) {
