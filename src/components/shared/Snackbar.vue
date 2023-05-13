@@ -1,9 +1,8 @@
 <template>
   <v-snackbar v-model="$store.state.snackbar.show">
-    {{ text }}
-
+    {{ $store.state.snackbar.text }}
     <template v-slot:action="{ attrs }">
-      <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+      <v-btn text v-bind="attrs" @click="$store.commit('hideSnackbar')">
         Close
       </v-btn>
     </template>
@@ -17,6 +16,3 @@ export default {
   }),
 };
 </script>
-
-<style></style>
-``

@@ -14,6 +14,7 @@ export default new Vuex.Store({
     ],
     snackbar: {
       show: false,
+      text: "",
     },
   },
   mutations: {
@@ -43,8 +44,20 @@ export default new Vuex.Store({
       // 넘겨받은 id랑 일치하는 애 빼고 나머지가 this.tasks로 넘겨짐
       // 그렇게 넘겨진 애들만 v-for에 의해 렌더링됨
     },
-    showSnackbar(state) {
-      state.snackbar.show = true;
+    showSnackbar(state, text) {
+      let timeout = 0;
+      if (state.snackbar.show) {
+        // 이미 다른 snackbar가 보여지고 있는 경우
+        state.snackbar.show = false;
+        timeout = 300;
+      }
+      setTimeout(() => {
+        state.snackbar.show = true;
+        state.snackbar.text = text;
+      }, timeout);
+    },
+    hideSnackbar(state) {
+      state.snackbar.show = false;
     },
   },
   actions: {
@@ -54,11 +67,11 @@ export default new Vuex.Store({
     /* mutation 내에서 다른 mutation을 불러오지 못하기 때문에 여기서 처리! */
     addTask({ commit }, newTaskTitle) {
       commit("addTask", newTaskTitle);
-      commit("showSnackbar");
+      commit("showSnackbar", "Task added!");
     },
     deleteTask({ commit }, id) {
       commit("deleteTask", id);
-      commit("showSnackbar");
+      commit("showSnackbar", "Task deleted!");
     },
   },
   getters: {
