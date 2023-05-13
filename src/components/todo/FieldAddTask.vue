@@ -27,7 +27,8 @@ export default {
 
   methods: {
     addTask() {
-      this.$store.commit("addTask", this.newTaskTitle);
+      // we commit mutations, but we dispatch actions
+      this.$store.dispatch("addTask", this.newTaskTitle);
       this.newTaskTitle = "";
       // newTaskTitle 다시 empty string으로 변환해주는 과정을 위해, Todo.vue에 이만큼의 addTask 코드는 남겨둠
     },

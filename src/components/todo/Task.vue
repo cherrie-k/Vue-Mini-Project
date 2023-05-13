@@ -25,13 +25,16 @@
         </v-list-item-content>
 
         <v-list-item-action>
-          <v-btn @click.stop="$store.commit('deleteTask', task.id)" icon>
+          <!--클릭 됐을 때 deleteTask라는 action 수행-->
+          <v-btn @click.stop="$store.dispatch('deleteTask', task.id)" icon>
             <v-icon color="red lighten-3">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
       </template>
     </v-list-item>
     <v-divider></v-divider>
+
+    <dialog-delete v-if="dialogs.delete" />
   </div>
 </template>
 
@@ -39,5 +42,14 @@
 export default {
   // 부모 컴포넌트로부터 props를 array로 받음
   props: ["task"],
+  data() {
+    return {
+      dialogs: {
+        delete: false,
+      },
+    };
+  },
+  components: {},
 };
 </script>
+DialogDelete

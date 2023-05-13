@@ -50,7 +50,10 @@
       </v-btn>
     </v-app-bar>
 
-    <v-main> <router-view></router-view></v-main>
+    <v-main>
+      <router-view></router-view>
+      <snackbar />
+    </v-main>
   </v-app>
 </template>
 
@@ -64,5 +67,8 @@ export default {
       { title: "About", icon: "mdi-help-box", to: "/about" },
     ],
   }),
+  components: {
+    snackbar: require("@/components/shared/Snackbar.vue").default,
+  },
 };
 </script>
