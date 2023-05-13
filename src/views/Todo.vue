@@ -22,7 +22,7 @@
     <v-list v-if="$store.state.tasks.length" class="pt-1" flat>
       <div v-for="task in $store.state.tasks" :key="task.id">
         <v-list-item
-          @click="doneTask(task.id)"
+          @click="$store.commit('doneTask', task.id)"
           :class="{
             'red lighten-5':
               task.done /* task.done이 true일 때만 red property를 가짐*/,
@@ -46,7 +46,7 @@
             </v-list-item-content>
 
             <v-list-item-action>
-              <v-btn @click.stop="deleteTask(task.id)" icon>
+              <v-btn @click.stop="$store.commit('deleteTask', task.id)" icon>
                 <v-icon color="red lighten-3">mdi-delete</v-icon>
               </v-btn>
             </v-list-item-action>
@@ -76,21 +76,12 @@ export default {
     addTask() {
       this.$store.commit("addTask", this.newTaskTitle);
       this.newTaskTitle = "";
+      // newTaskTitle 다시 empty string으로 변환해주는 과정을 위해, Todo.vue에 이만큼의 addTask 코드는 남겨둠
     },
-    doneTask(id) {
-      // 전달받은 id와 일치하는 task 찾음
-      // fiter는 iteration을 돌며 주어진 조건 (task.id === id)와 만족하는 task를 찾는다
-      let task = this.tasks.filter((task) => task.id === id)[0];
-      // 주의해야 할 점: task는 단일 object가 아니라 array of object를 반환하기 때문에, 꼭 [0]를 붙여서 하나만 반환하게 해야함
-      task.done = !task.done;
-    },
-
-    deleteTask(id) {
-      // 넘겨받은 id와 일치하지 않는 id를 가진 애들 찾기
-      this.tasks = this.tasks.filter((task) => task.id !== id);
-      // 넘겨받은 id랑 일치하는 애 빼고 나머지가 this.tasks로 넘겨짐
-      // 그렇게 넘겨진 애들만 v-for에 의해 렌더링됨
-    },
+    /* doneTask와 
+      deleteTask는 전부
+      store의 index.js로 옮김 
+    */
   },
 };
 </script>

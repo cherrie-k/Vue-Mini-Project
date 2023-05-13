@@ -27,6 +27,21 @@ export default new Vuex.Store({
       // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
       // this.newTaskTitle = "";
     },
+
+    doneTask(state, id) {
+      // 전달받은 id와 일치하는 task 찾음
+      // fiter는 iteration을 돌며 주어진 조건 (task.id === id)와 만족하는 task를 찾는다
+      let task = state.tasks.filter((task) => task.id === id)[0];
+      // 주의해야 할 점: task는 단일 object가 아니라 array of object를 반환하기 때문에, 꼭 [0]를 붙여서 하나만 반환하게 해야함
+      task.done = !task.done;
+    },
+
+    deleteTask(state, id) {
+      // 넘겨받은 id와 일치하지 않는 id를 가진 애들 찾기
+      state.tasks = state.tasks.filter((task) => task.id !== id);
+      // 넘겨받은 id랑 일치하는 애 빼고 나머지가 this.tasks로 넘겨짐
+      // 그렇게 넘겨진 애들만 v-for에 의해 렌더링됨
+    },
   },
   actions: {
     // 비동기적인 작업이나 복잡한 로직 처리를 위해 사용되는 메소드.
