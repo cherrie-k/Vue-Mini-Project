@@ -72,11 +72,15 @@ export default new Vuex.Store({
     /* mutation 내에서 다른 mutation을 불러오지 못하기 때문에 여기서 처리! */
     addTask({ commit }, newTaskTitle) {
       commit("addTask", newTaskTitle);
-      commit("showSnackbar", "Task added!");
+      commit("showSnackbar", "Todo added!");
     },
     deleteTask({ commit }, id) {
       commit("deleteTask", id);
-      commit("showSnackbar", "Task deleted!");
+      commit("showSnackbar", "Todo deleted!");
+    },
+    updateTaskTitle({ commit }, payload) {
+      commit("updateTaskTitle", payload);
+      commit("showSnackbar", "Todo updated! ");
     },
   },
   getters: {

@@ -12,7 +12,15 @@
         <v-btn color="grey darken-1" text @click="$emit('close')">
           Cancel
         </v-btn>
-        <v-btn color="red darken-1" text @click="saveTask"> Save </v-btn>
+        <!--taskTitle 내용 없을 땐 이 버튼을 disabled 처리-->
+        <v-btn
+          :disabled="!taskTitle || taskTitle === task.title"
+          color="red darken-1"
+          text
+          @click="saveTask"
+        >
+          Save
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -27,14 +35,21 @@ export default {
       taskTitle: null,
     };
   },
+  computed: {
+    taskTitleInvalid() {
+      return !this.taskTitle || this.taskTitle === this.task.title;
+    },
+  },
   methods: {
     saveTask() {
-      let payload = {
-        id: this.task.id,
-        title: this.taskTitle,
-      };
-      this.$store.commit("updateTaskTitle", payload);
-      this.$emit("close");
+      if (!this.taskTitleInvalid) {
+        let payload = {
+          id: this.task.id,
+          title: this.taskTitle,
+        };
+        this.$store.dispatch("updateTaskTitle", payload);
+        this.$emit("close");
+      }
     },
   },
   mounted() {
