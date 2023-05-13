@@ -16,14 +16,16 @@
       hide-details
       clearable
     ></v-text-field>
-    <!--Vuetify 라이브러리에서 제공하는 v-list. flat attribute은 아무런 그림자나 elevation 없음을 의미-->
-    <v-list class="pt-1" flat>
+
+    <!--Vuetify 라이브러리에서 제공하는 v-list. flat attribute은 아무런 그림자나 elevation 없음을 의미.
+    v-list에 v-if="tasks.length"를 더해서 tasks array에 무언가가 있어야지만 v-list를 띄우게 함-->
+    <v-list v-if="tasks.length" class="pt-1" flat>
       <div v-for="task in tasks" :key="task.id">
         <v-list-item
           @click="doneTask(task.id)"
           :class="{
-            'blue lighten-5':
-              task.done /* task.done이 true일 때만 blue property를 가짐*/,
+            'red lighten-5':
+              task.done /* task.done이 true일 때만 red property를 가짐*/,
           }"
         >
           <!--v-slot:default로 컨텐트 분배를 위한 slot 정의함. 
@@ -31,7 +33,10 @@
           <template v-slot:default>
             <v-list-item-action>
               <!--:input-value 속성이 true일 때 체크함-->
-              <v-checkbox :input-value="task.done" color="primary"></v-checkbox>
+              <v-checkbox
+                :input-value="task.done"
+                color="red lighten-2"
+              ></v-checkbox>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title
@@ -42,7 +47,7 @@
 
             <v-list-item-action>
               <v-btn @click.stop="deleteTask(task.id)" icon>
-                <v-icon color="primary lighten-1">mdi-delete</v-icon>
+                <v-icon color="red lighten-3">mdi-delete</v-icon>
               </v-btn>
             </v-list-item-action>
           </template>
@@ -50,6 +55,10 @@
         <v-divider></v-divider>
       </div>
     </v-list>
+    <div v-else class="no-task">
+      <v-icon size="100" color="pink lighten-2">mdi-check</v-icon>
+      <div class="text-h5 pink--text">No tasks!</div>
+    </div>
   </div>
 </template>
 
@@ -60,7 +69,13 @@ export default {
   data() {
     return {
       newTaskTitle: "" /* 새로 입력되는 task 값*/,
-      tasks: [{ id: 1, title: "Add a new task!", done: false }],
+      tasks: [
+        /*
+        { id: 1, title: "Add a new task!", done: false },
+        { id: 2, title: "Add a newer task!", done: false },
+        { id: 3, title: "Add a newest task!", done: false },
+        */
+      ],
     };
   },
 
@@ -93,3 +108,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.no-task {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.45;
+}
+</style>
