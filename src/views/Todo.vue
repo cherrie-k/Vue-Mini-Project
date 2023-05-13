@@ -74,16 +74,9 @@ export default {
 
   methods: {
     addTask() {
-      let newTask = {
-        id: Date.now(), // id는 unique해야하기 때문에
-        title: this.newTaskTitle,
-        done: false,
-      };
-      this.tasks.push(newTask);
-      // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
+      this.$store.commit("addTask", this.newTaskTitle);
       this.newTaskTitle = "";
     },
-
     doneTask(id) {
       // 전달받은 id와 일치하는 task 찾음
       // fiter는 iteration을 돌며 주어진 조건 (task.id === id)와 만족하는 task를 찾는다

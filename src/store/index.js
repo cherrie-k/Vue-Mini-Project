@@ -17,6 +17,16 @@ export default new Vuex.Store({
     // 상태를 변경하는 메소드.
     // 직접적인 상태 변경은 반드시 mutations를 통해서만 이루어져야 함.
     // 동기적인 작업 수행.
+    addTask(state, newTaskTitle) {
+      let newTask = {
+        id: Date.now(), // id는 unique해야하기 때문에
+        title: newTaskTitle,
+        done: false,
+      };
+      state.tasks.push(newTask);
+      // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
+      // this.newTaskTitle = "";
+    },
   },
   actions: {
     // 비동기적인 작업이나 복잡한 로직 처리를 위해 사용되는 메소드.
