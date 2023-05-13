@@ -19,8 +19,8 @@
 
     <!--Vuetify 라이브러리에서 제공하는 v-list. flat attribute은 아무런 그림자나 elevation 없음을 의미.
     v-list에 v-if="tasks.length"를 더해서 tasks array에 무언가가 있어야지만 v-list를 띄우게 함-->
-    <v-list v-if="tasks.length" class="pt-1" flat>
-      <div v-for="task in tasks" :key="task.id">
+    <v-list v-if="$store.state.tasks.length" class="pt-1" flat>
+      <div v-for="task in $store.state.tasks" :key="task.id">
         <v-list-item
           @click="doneTask(task.id)"
           :class="{
@@ -69,13 +69,6 @@ export default {
   data() {
     return {
       newTaskTitle: "" /* 새로 입력되는 task 값*/,
-      tasks: [
-        /*
-        { id: 1, title: "Add a new task!", done: false },
-        { id: 2, title: "Add a newer task!", done: false },
-        { id: 3, title: "Add a newest task!", done: false },
-        */
-      ],
     };
   },
 
