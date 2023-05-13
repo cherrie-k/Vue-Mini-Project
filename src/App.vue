@@ -23,11 +23,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="#fcb69f" dark src="clouds.jpg" prominent>
+    <v-app-bar app color="#fcb69f" dark src="butkkot.jpg" prominent>
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
-          gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
+          gradient="to top right, rgba(203,65,77,.45), rgba(224,167,172,.75)"
         ></v-img>
       </template>
 

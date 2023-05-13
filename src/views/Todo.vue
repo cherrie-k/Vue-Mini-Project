@@ -1,6 +1,21 @@
 <!--template 태그는 컴포넌트의 템플릿 섹션 정의함. 여기서는, class="home"인 div로 구성-->
 <template>
   <div class="home">
+    <!--v-model은 데이터와 입력 요소를 양방향으로 바인딩하는 디렉티브임.
+    사용하면 입력 요소의 값을 데이터에 바인딩하고, 데이터의 변경이 입력 요소에 반영되게 할 수 있음
+    주로 상용자 입력을 받는 폼 요소(input, select, textarea)와 함께 사용
+    v-model 디렉티브 사용하면 폼 요소의 값과 Vue 인스턴스의 데이터 속성이 자동으로 동기화됨-->
+    <v-text-field
+      v-model="newTaskTitle"
+      @click:append="addTask"
+      @keyup.enter="addTask"
+      class="pa-3"
+      outlined
+      label="Append"
+      append-icon="mdi-plus"
+      hide-details
+      clearable
+    ></v-text-field>
     <!--Vuetify 라이브러리에서 제공하는 v-list. flat attribute은 아무런 그림자나 elevation 없음을 의미-->
     <v-list class="pt-1" flat>
       <div v-for="task in tasks" :key="task.id">
@@ -44,15 +59,23 @@ export default {
   name: "Home",
   data() {
     return {
-      tasks: [
-        { id: 1, title: "wake up", done: false },
-        { id: 2, title: "eat oatmeal", done: false },
-        { id: 3, title: "morning workout", done: false },
-      ],
+      newTaskTitle: "" /* 새로 입력되는 task 값*/,
+      tasks: [{ id: 1, title: "Add a new task!", done: false }],
     };
   },
 
   methods: {
+    addTask() {
+      let newTask = {
+        id: Date.now(), // id는 unique해야하기 때문에
+        title: this.newTaskTitle,
+        done: false,
+      };
+      this.tasks.push(newTask);
+      // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
+      this.newTaskTitle = "";
+    },
+
     doneTask(id) {
       // 전달받은 id와 일치하는 task 찾음
       // fiter는 iteration을 돌며 주어진 조건 (task.id === id)와 만족하는 task를 찾는다
