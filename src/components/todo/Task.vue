@@ -26,7 +26,7 @@
 
         <v-list-item-action>
           <!--클릭 됐을 때 deleteTask라는 action 수행-->
-          <v-btn @click.stop="$store.dispatch('deleteTask', task.id)" icon>
+          <v-btn @click.stop="dialogs.delete = true" icon>
             <v-icon color="red lighten-3">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -42,6 +42,10 @@
 export default {
   // 부모 컴포넌트로부터 props를 array로 받음
   props: ["task"],
+  components: {
+    "dialog-delete": require("@/components/todo/dialogs/DialogDelete.vue")
+      .default,
+  },
   data() {
     return {
       dialogs: {
@@ -49,7 +53,6 @@ export default {
       },
     };
   },
-  components: {},
 };
 </script>
 DialogDelete
