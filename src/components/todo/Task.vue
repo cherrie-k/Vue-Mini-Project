@@ -23,6 +23,12 @@
             >{{ task.title }}</v-list-item-title
           >
         </v-list-item-content>
+        <v-list-item-action v-if="task.dueDate">
+          <v-list-item-action-text>
+            <v-icon small>mdi-calendar</v-icon>
+            {{ task.dueDate | niceDate }}
+          </v-list-item-action-text>
+        </v-list-item-action>
 
         <v-list-item-action>
           <!--클릭 됐을 때 deleteTask라는 action 수행
@@ -39,9 +45,16 @@
 </template>
 
 <script>
+import { format } from "date-fns";
+
 export default {
   // 부모 컴포넌트로부터 props를 array로 받음
   props: ["task"],
+  filters: {
+    niceDate(value) {
+      return format(new Date(value), "MMM d");
+    },
+  },
   components: {
     "task-menu": require("@/components/todo/TaskMenu.vue").default,
   },

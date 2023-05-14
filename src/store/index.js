@@ -8,9 +8,9 @@ export default new Vuex.Store({
     // 애플리케이션의 데이터를 포함하는 중앙 집중화된 상태 객체.
     // 여러 컴포넌트에서 공유되는 데이터 저장.
     tasks: [
-      { id: 1, title: "Add a new task!", done: false },
-      { id: 2, title: "Add a newer task!", done: false },
-      { id: 3, title: "Add a newest task!", done: false },
+      { id: 1, title: "Add a new task!", done: false, dueDate: "2023-05-20" },
+      { id: 2, title: "Add a newer task!", done: false, dueDate: "2023-05-23" },
+      { id: 3, title: "Add a newest task!", done: false, dueDate: null },
     ],
     snackbar: {
       show: false,
@@ -26,6 +26,7 @@ export default new Vuex.Store({
         id: Date.now(), // id는 unique해야하기 때문에
         title: newTaskTitle,
         done: false,
+        dueDate: null,
       };
       state.tasks.push(newTask);
       // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
