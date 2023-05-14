@@ -1,5 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Localbase from "localbase";
+
+let db = new Localbase("db");
 
 Vue.use(Vuex);
 
@@ -8,9 +11,9 @@ export default new Vuex.Store({
     // 애플리케이션의 데이터를 포함하는 중앙 집중화된 상태 객체.
     // 여러 컴포넌트에서 공유되는 데이터 저장.
     tasks: [
-      { id: 1, title: "Add a new task!", done: false, dueDate: "2023-05-20" },
-      { id: 2, title: "Add a newer task!", done: false, dueDate: "2023-05-23" },
-      { id: 3, title: "Add a newest task!", done: false, dueDate: null },
+      // { id: 1, title: "Add a new task!", done: false, dueDate: "2023-05-20" },
+      // { id: 2, title: "Add a newer task!", done: false, dueDate: "2023-05-23" },
+      // { id: 3, title: "Add a newest task!", done: false, dueDate: null },
     ],
     snackbar: {
       show: false,
@@ -21,13 +24,7 @@ export default new Vuex.Store({
     // 상태를 변경하는 메소드.
     // 직접적인 상태 변경은 반드시 mutations를 통해서만 이루어져야 함.
     // 동기적인 작업 수행.
-    addTask(state, newTaskTitle) {
-      let newTask = {
-        id: Date.now(), // id는 unique해야하기 때문에
-        title: newTaskTitle,
-        done: false,
-        dueDate: null,
-      };
+    addTask(state, newTask) {
       state.tasks.push(newTask);
       // push 한 이후엔 인풋칸 placeholder에 있던 newTaskTitle을 비워줌
       // this.newTaskTitle = "";
@@ -54,6 +51,9 @@ export default new Vuex.Store({
       let task = state.tasks.filter((task) => task.id === payload.id)[0];
       task.dueDate = payload.dueDate;
     },
+    setTasks(state, tasks) {
+      state.tasks = tasks;
+    },
     showSnackbar(state, text) {
       let timeout = 0;
       if (state.snackbar.show) {
@@ -76,8 +76,20 @@ export default new Vuex.Store({
     // 비동기 동작을 처리하거나 외부 API와의 통신 등 수행.
     /* mutation 내에서 다른 mutation을 불러오지 못하기 때문에 여기서 처리! */
     addTask({ commit }, newTaskTitle) {
-      commit("addTask", newTaskTitle);
-      commit("showSnackbar", "Todo added!");
+      // localbase를 활용한 작업은 asynchronous하고, 그런 작업은 actions에서 수행해야 하기 때문에
+      // newTask를 mutations의 addTask에서 여기로 옮겨줌
+      let newTask = {
+        id: Date.now(), // id는 unique해야하기 때문에
+        title: newTaskTitle,
+        done: false,
+        dueDate: null,
+      };
+      db.collection("tasks")
+        .add(newTask)
+        .then(() => {
+          commit("addTask", newTask);
+          commit("showSnackbar", "Task added!");
+        });
     },
     deleteTask({ commit }, id) {
       commit("deleteTask", id);
@@ -90,6 +102,13 @@ export default new Vuex.Store({
     updateTaskDueDate({ commit }, payload) {
       commit("updateTaskDueDate", payload);
       commit("showSnackbar", "Duedate updated!! ");
+    },
+    getTasks({ commit }) {
+      db.collection("tasks")
+        .get()
+        .then((tasks) => {
+          commit("setTasks", tasks);
+        });
     },
   },
   getters: {

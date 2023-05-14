@@ -84,6 +84,9 @@ export default {
       { title: "About", icon: "mdi-help-box", to: "/about" },
     ],
   }),
+  mounted() {
+    this.$store.dispatch("getTasks");
+  },
   components: {
     snackbar: require("@/components/shared/Snackbar.vue").default,
   },
