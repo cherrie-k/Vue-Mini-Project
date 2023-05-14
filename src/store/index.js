@@ -91,17 +91,47 @@ export default new Vuex.Store({
           commit("showSnackbar", "Task added!");
         });
     },
+    doneTask({ state, commit }, id) {
+      let task = state.tasks.filter((task) => task.id === id)[0];
+      db.collection("tasks")
+        .doc({ id: id })
+        .update({
+          done: !task.done,
+        })
+        .then(() => {
+          commit("doneTask", id);
+        });
+    },
     deleteTask({ commit }, id) {
-      commit("deleteTask", id);
-      commit("showSnackbar", "Todo deleted!");
+      db.collection("tasks")
+        .doc({ id: id })
+        .delete()
+        .then(() => {
+          commit("deleteTask", id);
+          commit("showSnackbar", "Todo deleted!");
+        });
     },
     updateTaskTitle({ commit }, payload) {
-      commit("updateTaskTitle", payload);
-      commit("showSnackbar", "Todo updated! ");
+      db.collection("tasks")
+        .doc({ id: payload.id })
+        .update({
+          title: payload.title,
+        })
+        .then(() => {
+          commit("updateTaskTitle", payload);
+          commit("showSnackbar", "Todo updated! ");
+        });
     },
     updateTaskDueDate({ commit }, payload) {
-      commit("updateTaskDueDate", payload);
-      commit("showSnackbar", "Duedate updated!! ");
+      db.collection("tasks")
+        .doc({ id: payload.id })
+        .update({
+          dueDate: payload.dueDate,
+        })
+        .then(() => {
+          commit("updateTaskDueDate", payload);
+          commit("showSnackbar", "Duedate updated!! ");
+        });
     },
     getTasks({ commit }) {
       db.collection("tasks")

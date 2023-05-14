@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list-item
-      @click="$store.commit('doneTask', task.id)"
+      @click="$store.dispatch('doneTask', task.id)"
       :class="{
         'red lighten-5':
           task.done /* task.done이 true일 때만 red property를 가짐*/,
@@ -29,7 +29,6 @@
             {{ task.dueDate | niceDate }}
           </v-list-item-action-text>
         </v-list-item-action>
-
         <v-list-item-action>
           <!--클릭 됐을 때 deleteTask라는 action 수행
            <v-bt @click.stop="dialogs.delete = true" icon>
