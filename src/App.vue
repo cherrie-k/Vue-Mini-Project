@@ -1,14 +1,19 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="text-h6"> Vuetify Todo </v-list-item-title>
-          <v-list-item-subtitle> Cherrie's Todo List </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
+    <v-navigation-drawer v-model="drawer" :mobile-breakpoint="768" app>
+      <v-img
+        class="pa-4 pt-5"
+        src="butkkot.jpg"
+        height="130"
+        gradient="to top right, rgba(203,65,77,.45), rgba(224,167,172,.75)"
+      >
+        <v-avatar size="70" class="mb-1">
+          <img src="Cherrie.jpg" alt="Cherrie" />
+        </v-avatar>
+        <div class="white--text text-subtitle-1 font-weight-bold">
+          Cherrie Kim
+        </div>
+      </v-img>
 
       <v-list dense nav>
         <v-list-item v-for="item in items" :key="item.title" :to="item.to" link>
@@ -17,18 +22,30 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title>
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app color="#fcb69f" dark src="butkkot.jpg" prominent>
+    <v-app-bar
+      app
+      color="#fcb69f"
+      dark
+      src="butkkot.jpg"
+      prominent
+      height="130"
+    >
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
-          gradient="to top right, rgba(203,65,77,.45), rgba(224,167,172,.75)"
-        ></v-img>
+          gradient="to top right, 
+          rgba(203,65,77,.45), 
+          rgba(224,167,172,.75)"
+        >
+        </v-img>
       </template>
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
